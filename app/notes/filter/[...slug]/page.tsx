@@ -11,9 +11,9 @@ interface MetadataProps {
 
 export async function generateMetadata({params}: MetadataProps): Promise<Metadata> {
   const { slug } = await params;
-  const tegInPuth = slug?.[0];
+  const tegInPath = slug?.[0];
 
-  const tagOrAll = !tegInPuth || tegInPuth === 'all' ? 'All' : tegInPuth;
+  const tagOrAll = !tegInPath || tegInPath === 'all' ? 'All' : tegInPath;
   const title = tagOrAll === 'All' ? 'All notes | NoteHub' : `${tagOrAll} notes | NoteHub`;
   const description = tagOrAll === 'All' ? 'All categories by notes, find the one you need among them all'
       : `Sheet notes by category "${tagOrAll}".`;
@@ -72,7 +72,7 @@ export default async function Notes({ params }: NotesProps) {
 
   return (
     <HydrationBoundary state={dehydrateState}>
-      <NotesClient initialPage={page} initialQuery={query} initialTag={actualTag} />
+      <NotesClient initialTag={actualTag} />
     </HydrationBoundary>
   );
 }

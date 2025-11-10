@@ -11,15 +11,12 @@ import SearchBox from '../../../../components/SearchBox/SearchBox';
 import Link from 'next/link';
 
 interface NotesClientProps {
-  initialPage: number,
-  initialQuery: string,
   initialTag: string | undefined
 }
 
-export default function NotesClient({ initialPage = 1, initialQuery = '', initialTag = undefined }: NotesClientProps) {
-  const [page, setPage] = useState(initialPage);
-  const [searchQuery, setSearchQuery] = useState<string>(initialQuery);
-  const [tag] = useState<string | undefined>(initialTag)
+export default function NotesClient({ initialTag = undefined }: NotesClientProps) {
+  const [page, setPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState<string>('');
 
   const [debouncedQuery] = useDebounce(searchQuery, 500);
 
@@ -30,8 +27,8 @@ export default function NotesClient({ initialPage = 1, initialQuery = '', initia
 
 
   const { data, isLoading, isError, isSuccess } = useQuery({
-    queryKey: ['notes', page, debouncedQuery, tag],
-    queryFn: () => fetchNotes(debouncedQuery, page, tag),
+    queryKey: ['notes', page, debouncedQuery, initialTag],
+    queryFn: () => fetchNotes(debouncedQuery, page, initialTag),
     placeholderData: keepPreviousData,
     refetchOnMount: false,
   });
